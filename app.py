@@ -1,12 +1,13 @@
 import streamlit as st
 import pandas as pd
 
+
 st.sidebar.title("Pages")
 page = st.sidebar.selectbox("Select Page", ["Employee", "Department", "Joined Data"])
 
 if page == "Employee":
     df = pd.read_csv("employee_data.csv", index_col=0)
-    st.write(df)
+    st.write(df.set_index("Empno"))
     st.title("Employee data entry: ")
     emp_id = st.number_input(
         "Employee ID: ",
@@ -44,7 +45,7 @@ if page == "Employee":
             st.error("Please enter all the required data")
 elif page == "Department":
     df = pd.read_csv("department_data.csv", index_col=0)
-    st.write(df)
+    st.write(df.set_index("Deptno"))
     st.title("Department data entry: ")
     dept_id = st.number_input(
         "Department ID: ",
@@ -76,4 +77,4 @@ else:
     department_data = pd.read_csv("department_data.csv", index_col=0)
 
     joined_data = pd.merge(employee_data, department_data, on="Deptno", how="outer")
-    st.write(joined_data[["Empno", "Ename", "Deptno", "dname"]])
+    st.write(joined_data[["Empno", "Ename", "Deptno", "dname"]].set_index("Empno"))
